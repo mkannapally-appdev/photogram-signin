@@ -17,9 +17,31 @@
   <body>
 
   <ul>
+
+   <% if session.fetch(:user_id) == nil %>
+    <li> <a href="/user_sign_in"> Sign In </a> </li>
+    <li> <a href="/user_sign_up"> Sign Up </a> </li>
     <li> <a href="/users"> Users </a> </li>
     <li> <a href="/photos"> Photos </a>  </li>
+    <li> <%= session.fetch(:user_id) %> </li>
+  <% elsif %>
+    <li> <a href="/users/<%= User.where(:id => session.fetch(:user_id)).at(0).username %>"> <%= User.where(:id => session.fetch(:user_id)).at(0).username %> </a> </li>
+    <li> <a href="/user_sign_out"> Sign Out </a> </li>
+    <li> <a href="/users"> Users </a> </li>
+    <li> <a href="/photos"> Photos </a>  </li>
+    <li> <%= session.fetch(:user_id) %> </li>
+
+  <% end %>
   </ul>
+
+ <% if notice.present? %>
+    <div style="border: thin green solid ; color : green"> <%= notice %> </div>
+ <% end %>
+
+ <% if alert.present? %> 
+    <div style="border: thin red solid ; color : red"> <%= alert %> </div>
+ <% end %>
+
     <%= yield %>
   </body>
 </html>
